@@ -9,21 +9,35 @@ resources:
 - repo: self
 
 variables:
+  # Container registry service connection established during pipeline creation
+  imageName: 'pipelines-javascript-docker'
+  dockerRegistryServiceConnection: 'docker.io/ezlee'
+  imageRepository: 'ezlee/azuredevops' 
+  containerRegistry: 'docker.io/ezlee'
+  dockerfilePath: 'app/Dockerfile'
   tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
 
 stages:
 - stage: Build
-  displayName: Build image
+  displayName: Build stage
   jobs:  
   - job: Build
-    displayName: Build
+    displayName: Build image
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build and push an image to container registry
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/app/Dockerfile'
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+          
+    - upload: manifests
+      artifact: manifests
