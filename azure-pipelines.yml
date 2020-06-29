@@ -12,7 +12,7 @@ variables:
   # Container registry service connection established during pipeline creation
   imageName: 'pipelines-javascript-docker'
   dockerRegistryServiceConnection: 'docker.io/ezlee'
-  imageRepository: 'ezlee/azuredevops' 
+  imageRepository: 'ezlee/$(imageName)' 
   containerRegistry: 'docker.io/ezlee'
   dockerfilePath: 'app/Dockerfile'
   tag: '$(Build.BuildId)'
