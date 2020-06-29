@@ -1,4 +1,4 @@
-FROM ezlee/node:8
+FROM node:8
 
 WORKDIR /usr/src/app
 
