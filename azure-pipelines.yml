@@ -41,7 +41,7 @@ stages:
 
     - task: CmdLine@2
       inputs:
-        script: 'docker tag $(imageRepository) latest'
+        script: 'docker tag $(imageRepository):$(tag) latest'
 
     - task: Docker@2
       displayName: push
