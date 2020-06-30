@@ -43,12 +43,6 @@ stages:
       inputs:
         script: 'docker tag $(imageRepository):$(tag) latest'
 
-    - task: Docker@2
-      displayName: push
+    - task: CmdLine@2
       inputs:
-        command: push
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          latest  
+        script: 'docker push $(imageRepository):latest'
