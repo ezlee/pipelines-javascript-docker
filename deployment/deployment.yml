@@ -15,5 +15,6 @@ spec:
       containers:
       - name: pipelines-javascript-docker
         image: pipelines-javascript-docker
+        imagePullSecret: regcred
         ports:
         - containerPort: 80
