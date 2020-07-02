@@ -36,7 +36,16 @@ stages:
     displayName: Build image
     pool:
       vmImage: $(vmImageName)
+    
     steps:
+    - task: Bash@3
+      displayName: show workspace and other environment variables
+      inputs:
+        script: env|sort
+    - task: Bash@3
+      displayName: list files
+      inputs:
+        script: whoami; ls -alhR
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -46,12 +55,10 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
     - task: CmdLine@2
       displayName: tag the new build with latest tag
       inputs:
         script: 'docker tag $(imageRepository):$(tag) $(imageRepository):latest'
-
     - task: Docker@2
       displayName: push the latest tag
       inputs:
@@ -59,13 +66,4 @@ stages:
         repository: $(imageRepository)
         command: 'push'
         tags: 'latest'
-    
-    - task: Bash@3
-      displayName: show workspace and other environment variables
-      inputs:
-        script: env|sort
-    
-    - task: Bash@3
-      displayName: list files
-      inputs:
-        script: whoami; ls -alhR
+
