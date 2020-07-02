@@ -59,3 +59,13 @@ stages:
         repository: $(imageRepository)
         command: 'push'
         tags: 'latest'
+    
+    - task: Bash@3
+      displayName: show workspace and other environment variables
+      inputs:
+        script: env|sort
+    
+    - task: Bash@3
+      displayName: list files
+      inputs:
+        script: whoami; ls -alhR
