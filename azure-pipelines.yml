@@ -76,13 +76,11 @@ stages:
     displayName: show the environemnt variables
     pool: Default
     steps:
-    - task: Bash@3
+    - task: CmdLine@2
       displayName: show workspace and other environment variables
       inputs:
-        targetType: 'inline'
-        script: 'env | sort'
-    - task: Bash@3
+        script: 'set | sort'
+    - task: CmdLine@2
       displayName: list files
       inputs:
-        targetType: 'inline'
-        script: 'whoami; ls -alhR'
+        script: 'dir /S'
