@@ -36,7 +36,6 @@ stages:
     displayName: Build image
     pool:
       vmImage: $(vmImageName)
-    
     steps:
     - task: Bash@3
       displayName: show workspace and other environment variables
@@ -69,3 +68,21 @@ stages:
         command: 'push'
         tags: 'latest'
 
+- stage: deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:  
+  - job: show_environment
+    displayName: show the environemnt variables
+    pool: Default
+    steps:
+    - task: Bash@3
+      displayName: show workspace and other environment variables
+      inputs:
+        targetType: 'inline'
+        script: 'env | sort'
+    - task: Bash@3
+      displayName: list files
+      inputs:
+        targetType: 'inline'
+        script: 'whoami; ls -alhR'
