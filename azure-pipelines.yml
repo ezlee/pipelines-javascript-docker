@@ -132,8 +132,8 @@ stages:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: Replace tokens in **/*
             inputs:
-              rootDirectory: $(Pipeline.Workspace)
-              targetFiles: '\deploy_artifacts\deployment\deployment.yml'
+              rootDirectory: $(Pipeline.Workspace)\deploy_artifacts
+              targetFiles: '**\deployment.yml'
               keepToken: true
               tokenPrefix: __
               tokenSuffix: __
