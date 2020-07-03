@@ -84,3 +84,33 @@ stages:
       displayName: list files
       inputs:
         script: 'dir /S'
+  - deployment: deploy_2_minikube
+    variables:
+    - name: kub-pod-instancecount
+      value: 1
+    - name: appName
+      value: pipeline-nodejs-app
+    - name: svcName
+      value: pipeline-nodejs-svc
+    pool: default
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: Replace tokens in **/*
+            inputs:
+              rootDirectory: $(Pipeline.Workspace)/drop
+              targetFiles: '**/*.yml'
+              keepToken: true
+              tokenPrefix: __
+              tokenSuffix: __
+          - task: Kubernetes@1
+            displayName: kubectl apply
+            inputs:
+              connectionType: Azure Resource Manager
+              azureSubscriptionEndpoint: my-azure
+              azureResourceGroup: my-resource-group
+              kubernetesCluster: my-cluster
+              command: apply
+              arguments: -f $(Pipeline.Workspace)/drop
