@@ -100,7 +100,7 @@ stages:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: Replace tokens in **/*
             inputs:
-              rootDirectory: $(Pipeline.Workspace)/drop
+              rootDirectory: $(Pipeline.Workspace)/deployment
               targetFiles: '**/*.yml'
               keepToken: true
               tokenPrefix: __
@@ -108,9 +108,9 @@ stages:
           - task: Kubernetes@1
             displayName: kubectl apply
             inputs:
-              connectionType: Azure Resource Manager
-              azureSubscriptionEndpoint: my-azure
-              azureResourceGroup: my-resource-group
-              kubernetesCluster: my-cluster
+              kubernetesServiceEndpoint: 'minikube-laptop'
+              namespace: default
+              secretName: regcred
+              kubernetesCluster: minikube
               command: apply
-              arguments: -f $(Pipeline.Workspace)/drop
+              arguments: -f $(Pipeline.Workspace)\deployment\deployment.yml
