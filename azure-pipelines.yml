@@ -133,7 +133,7 @@ stages:
             displayName: Replace tokens in **/*
             inputs:
               rootDirectory: $(Pipeline.Workspace)
-              targetFiles: 'deployment.yml'
+              targetFiles: '\deploy_artifacts\deployment\deployment.yml'
               keepToken: true
               tokenPrefix: __
               tokenSuffix: __
