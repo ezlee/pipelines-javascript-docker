@@ -80,7 +80,7 @@ stages:
       displayName: check copy destination folders
       inputs:
        targetType: 'inline'
-       script: 'ls -al $BUILD_ARTIFACTSTAGINGDIRECTORY; cat deployment.yml'
+       script: 'ls -al $BUILD_ARTIFACTSTAGINGDIRECTORY; cat $BUILD_ARTIFACTSTAGINGDIRECTORY\deployment.yml'
     - task: PublishBuildArtifacts@1
       inputs:
         pathtoPublish: $(build.artifactStagingDirectory)
