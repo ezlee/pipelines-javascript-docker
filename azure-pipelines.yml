@@ -71,7 +71,7 @@ stages:
       displayName: debug - check file contents on build agent
       inputs:
         targetType: 'inline'
-        script: 'pwd; echo $build.sourceDirectory; ls -al $build.sourceDirectory'
+        script: 'pwd; echo $BUILD_SOURCEDIRECTORY; ls -al $BUILD_SOURCEDIRECTORY'
     - task: CopyFiles@2
       inputs:
         contents: $(build.sourcesDirectory)/deployment*.*
