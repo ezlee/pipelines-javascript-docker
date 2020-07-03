@@ -93,6 +93,7 @@ stages:
     - name: svcName
       value: pipeline-nodejs-svc
     pool: default
+    environment: 'minikube'
     strategy:
       runOnce:
         deploy:
