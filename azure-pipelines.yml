@@ -71,15 +71,20 @@ stages:
       displayName: debug - check file contents on build agent
       inputs:
         targetType: 'inline'
-        script: 'pwd; echo $BUILD_SOURCEDIRECTORY; ls -al $BUILD_SOURCEDIRECTORY'
+        script: 'pwd; echo $BUILD_SOURCEDIRECTORY; echo $BUILD_ARTIFACTSTAGINGDIRECTORY; ls -al $BUILD_SOURCEDIRECTORY'
     - task: CopyFiles@2
       inputs:
-        contents: $(build.sourcesDirectory)/deployment*.*
+        contents: $(build.sourcesDirectory)/deployment/*.yml
         targetFolder: $(build.artifactStagingDirectory)
+    - task: Bash@3
+      displayName: check copy destination folders
+      inputs:
+       targetType: 'inline'
+       script: 'ls -al $BUILD_ARTIFACTSTAGINGDIRECTORY; cat deployment.yml'
     - task: PublishBuildArtifacts@1
       inputs:
         pathtoPublish: $(build.artifactStagingDirectory)
-        artifactName: drop
+        artifactName: deploy_artifacts
 
 - stage: deploy
   displayName: Deploy stage
@@ -96,7 +101,20 @@ stages:
     - task: CmdLine@2
       displayName: list files
       inputs:
-        script: 'dir /S'
+        script: 'echo %CD% & dir /S & echo BUILD_ARTIFACTSTAGINGDIRECTORY & echo %BUILD_ARTIFACTSTAGINGDIRECTORY% & dir %BUILD_ARTIFACTSTAGINGDIRECTORY%'
+    - task: DownloadPipelineArtifact@2
+      inputs:
+          source: 'current'
+          #project: # Required when source == Specific
+          #pipeline: # Required when source == Specific
+          preferTriggeringPipeline: false # Optional
+          #runVersion: 'latest' # Required when source == Specific# Options: latest, latestFromBranch, specific
+          #runBranch: 'refs/heads/master' # Required when source == Specific && RunVersion == LatestFromBranch
+          #runId: # Required when source == Specific && RunVersion == Specific
+          #tags: # Optional
+          artifact: deploy_artifacts
+          #patterns: '**' # Optional
+          path: '$(Pipeline.Workspace)'  
   - deployment: deploy_2_minikube
     variables:
     - name: kub-pod-instancecount
@@ -114,8 +132,8 @@ stages:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: Replace tokens in **/*
             inputs:
-              rootDirectory: $(Pipeline.Workspace)/deployment
-              targetFiles: '**/*.yml'
+              rootDirectory: $(Pipeline.Workspace)
+              targetFiles: 'deployment.yml'
               keepToken: true
               tokenPrefix: __
               tokenSuffix: __
@@ -127,4 +145,4 @@ stages:
               secretName: regcred
               kubernetesCluster: minikube
               command: apply
-              arguments: -f $(Pipeline.Workspace)\deployment\deployment.yml
+              arguments: -f $(Pipeline.Workspace)\deployment.yml
