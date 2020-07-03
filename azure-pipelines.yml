@@ -67,6 +67,14 @@ stages:
         repository: $(imageRepository)
         command: 'push'
         tags: 'latest'
+    - task: CopyFiles@2
+      inputs:
+        contents: $(build.sourcesDirectory)/deployment*.*
+        targetFolder: $(build.artifactStagingDirectory)
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: $(build.artifactStagingDirectory)
+        artifactName: drop
 
 - stage: deploy
   displayName: Deploy stage
