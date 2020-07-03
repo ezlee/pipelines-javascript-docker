@@ -46,7 +46,7 @@ stages:
       displayName: list files
       inputs:
         targetType: 'inline'
-        script: 'whoami; echo $(PWD); ls -alh'
+        script: 'whoami; pwd ; ls -alh'
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -71,7 +71,7 @@ stages:
       displayName: debug - check file contents on build agent
       inputs:
         targetType: 'inline'
-        script: 'echo $(PWD); echo $(build.sourceDirectory); ls -al $(build.sourceDirectory)'
+        script: 'pwd; echo $(build.sourceDirectory); ls -al $(build.sourceDirectory)'
     - task: CopyFiles@2
       inputs:
         contents: $(build.sourcesDirectory)/deployment*.*
