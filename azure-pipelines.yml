@@ -114,7 +114,7 @@ stages:
           #tags: # Optional
           artifact: deploy_artifacts
           #patterns: '**' # Optional
-          path: '$(Pipeline.Workspace)'  
+          path: '$(Pipeline.Workspace)'
   - deployment: deploy_2_minikube
     variables:
     - name: kub-pod-instancecount
@@ -145,4 +145,4 @@ stages:
               secretName: regcred
               kubernetesCluster: minikube
               command: apply
-              arguments: -f $(Pipeline.Workspace)\deployment.yml
+              arguments: -f $(Pipeline.Workspace)\deploy_artifacts\deployment\deployment.yml
