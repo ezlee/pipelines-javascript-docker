@@ -123,6 +123,8 @@ stages:
       value: pipeline-nodejs-app
     - name: svcName
       value: pipeline-nodejs-svc
+    - name: containerRegistry
+      value: 'docker.io/ezlee'
     pool: default
     environment: 'minikube'
     strategy:
@@ -143,7 +145,7 @@ stages:
               connectionType: Kubernetes Service Connection
               kubernetesServiceEndpoint: 'minikube-laptop'
               containerRegistryType: Container Registry
-              containerRegistry: $(containerRegistry)
+              containerRegistry: $(containerRegistry) 
               secretType: dockerRegistry
               secretName: regcred
               kubernetesCluster: minikube
