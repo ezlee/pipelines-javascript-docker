@@ -143,6 +143,7 @@ stages:
               connectionType: Kubernetes Service Connection
               kubernetesServiceEndpoint: 'minikube-laptop'
               containerRegistryType: Container Registry
+              containerRegistry: $(containerRegistry)
               secretType: dockerRegistry
               secretName: regcred
               kubernetesCluster: minikube
