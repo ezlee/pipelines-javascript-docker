@@ -140,9 +140,12 @@ stages:
           - task: Kubernetes@1
             displayName: kubectl apply
             inputs:
+              connectionType: Kubernetes Service Connection
               kubernetesServiceEndpoint: 'minikube-laptop'
-              namespace: default
+              containerRegistryType: Container Registry
+              secretType: dockerRegistry
               secretName: regcred
               kubernetesCluster: minikube
+              namespace: default
               command: apply
               arguments: -f $(Pipeline.Workspace)\deploy_artifacts\deployment\deployment.yml
