@@ -25,7 +25,7 @@ variables:
   dockerfilePath: 'app/Dockerfile'
   tag: '$(Build.BuildId)'
 
-  # Agent VM image name
+  # Agent VM image name - Microsoft hosted agent
   vmImageName: 'ubuntu-latest'
 
 stages:
@@ -86,13 +86,13 @@ stages:
         pathtoPublish: $(build.artifactStagingDirectory)
         artifactName: deploy_artifacts
 
-- stage: deploy
+- stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
   jobs:  
-  - job: show_environment
-    displayName: show the environemnt variables
-    pool: Default
+  - job: Download_artifacts
+    displayName: download and process artifacts
+    pool: Default    # using the default agent pool which is my laptop
     steps:
     - task: CmdLine@2
       displayName: show workspace and other environment variables
@@ -115,7 +115,7 @@ stages:
           artifact: deploy_artifacts
           #patterns: '**' # Optional
           path: '$(Pipeline.Workspace)'
-  - deployment: deploy_2_minikube
+  - deployment: Deploy_2_minikube
     variables:
     - name: kub-pod-instancecount
       value: 1
@@ -132,7 +132,7 @@ stages:
         deploy:
           steps:
           - task: replacetokens@3
-            displayName: Replace tokens in **/*
+            displayName: Apply variables to the deployment yaml file
             inputs:
               rootDirectory: $(Pipeline.Workspace)\deploy_artifacts
               targetFiles: '**\deployment.yml'
