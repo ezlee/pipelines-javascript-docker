@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: pipelines-javascript-docker
-        image: ezlee/__imageName__:latest
+        image: ezlee/__imageName__:__tag__
         ports:
         - containerPort: 80
 ---
