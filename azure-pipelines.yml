@@ -54,7 +54,7 @@ stages:
         organization: 'ezlee'
         projectKey: 'ezlee_pipelines-javascript-docker'
         projectName: 'pipeline-javascript-docker'
-        scannerMode: MSBuild
+        scannerMode: CLI
     - task: SonarCloudAnalyze@1
       displayName: 'Run Code Analysis'
     - task: SonarCloudPublish@1
