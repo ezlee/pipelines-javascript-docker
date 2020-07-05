@@ -55,10 +55,6 @@ stages:
         projectKey: 'ezlee_pipelines-javascript-docker'
         projectName: 'pipeline-javascript-docker'
         scannerMode: CLI
-    - task: SonarCloudAnalyze@1
-      displayName: 'Run Code Analysis'
-    - task: SonarCloudPublish@1
-      displayName: 'Publish Quality Gate Result'
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -75,6 +71,10 @@ stages:
         script: |
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy --exit-code 0 --severity MEDIUM,HIGH --ignore-unfixed $(containerRegistry)/$(imageRepository):$(tag)
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy --exit-code 1 --severity CRITICAL --ignore-unfixed $(containerRegistry)/$(imageRepository):$(tag)
+    - task: SonarCloudAnalyze@1
+      displayName: 'Run Code Analysis'
+    - task: SonarCloudPublish@1
+      displayName: 'Publish Quality Gate Result'
     - task: CmdLine@2
       displayName: tag the new build with latest tag
       inputs:
