@@ -64,11 +64,11 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Bash@3
-      displayName: Run Trivy Scan to scan docker images
-      inputs:
-        targetType: 'inline'
-        script: 'docker version; docker images; docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy --exit-code 0 --severity MEDIUM,HIGH --ignore-unfixed $(containerRegistry)/$(imageRepository):$(tag)'
+#    - task: Bash@3
+#      displayName: Run Trivy Scan to scan docker images
+#      inputs:
+#        targetType: 'inline'
+#        script: 'docker version; docker images; docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy --exit-code 0 --severity MEDIUM,HIGH --ignore-unfixed $(containerRegistry)/$(imageRepository):$(tag)'
     - task: Bash@3
       displayName: Run Trivy Scan to scan docker images (2)
       inputs:
