@@ -113,11 +113,11 @@ stages:
     displayName: download and process artifacts
     pool: k8s-hosted-agent    # using the self-hosted agent on k8s which is my laptop
     steps:
-    - task: Bash@3
+    - task: CmdLine@2
       displayName: show workspace and other environment variables
       inputs:
         script: 'env | sort'
-    - task: Bash@3
+    - task: CmdLine@2
       displayName: list files
       inputs:
         script: 'echo $PWD ; ls -al ; echo BUILD_ARTIFACTSTAGINGDIRECTORY ; echo $BUILD_ARTIFACTSTAGINGDIRECTORY ; ls -al $BUILD_ARTIFACTSTAGINGDIRECTORY'
