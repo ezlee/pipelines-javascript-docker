@@ -6,7 +6,7 @@ trigger:
   branches:
     include:
     #- develop    # disabling trigger for now; need to switch to schedule trigger
-    #- dev-4-k8sagent
+    - dev-4-k8sagent
     #- releases/*
   paths:
     exclude:
@@ -162,12 +162,12 @@ stages:
             displayName: kubectl apply
             inputs:
               connectionType: Kubernetes Service Connection
-              kubernetesServiceEndpoint: 'minikube-laptop'
+              kubernetesServiceEndpoint: 'osscluster-default-1594408323510'
               containerRegistryType: Container Registry
               dockerRegistryEndpoint: $(containerRegistry) 
               secretType: dockerRegistry
-              secretName: regcred
-              kubernetesCluster: minikube
+              secretName: 
+              kubernetesCluster: osscluster
               namespace: default
               command: apply
               arguments: -f $(Pipeline.Workspace)\deploy_artifacts\deployment\deployment.yml
