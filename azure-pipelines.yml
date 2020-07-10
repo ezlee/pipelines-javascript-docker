@@ -134,7 +134,7 @@ stages:
           artifact: deploy_artifacts
           #patterns: '**' # Optional
           path: '$(Pipeline.Workspace)'
-  - deployment: Deploy_2_k8s-osscluster
+  - deployment: Deploy_2_k8s_osscluster
     variables:
     - name: kub-pod-instancecount
       value: 1
