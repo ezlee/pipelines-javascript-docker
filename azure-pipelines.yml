@@ -6,8 +6,8 @@ trigger:
   branches:
     include:
     #- develop    # disabling trigger for now; need to switch to schedule trigger
-    - test
-    - releases/*
+    #- dev-4-k8sagent
+    #- releases/*
   paths:
     exclude:
     - deployment/*
@@ -18,7 +18,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  imageName: 'pipelines-javascript-docker'
+  imageName: 'pipelines-javascript-k8s'
   dockerRegistryServiceConnection: 'docker.io/ezlee'
   imageRepository: 'ezlee/$(imageName)' 
   containerRegistry: 'docker.io/ezlee'
@@ -144,8 +144,8 @@ stages:
       value: pipeline-nodejs-svc
     - name: containerRegistry
       value: 'docker.io/ezlee'
-    pool: default
-    environment: 'minikube'
+    pool: k8s-hosted-agent
+    environment: 'osscluster'
     strategy:
       runOnce:
         deploy:
