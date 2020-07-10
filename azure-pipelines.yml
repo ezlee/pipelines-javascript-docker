@@ -111,16 +111,16 @@ stages:
   jobs:  
   - job: Download_artifacts
     displayName: download and process artifacts
-    pool: Default    # using the default agent pool which is my laptop
+    pool: k8s-hosted-agent    # using the self-hosted agent on k8s which is my laptop
     steps:
-    - task: CmdLine@2
+    - task: Bash@3
       displayName: show workspace and other environment variables
       inputs:
-        script: 'set | sort'
-    - task: CmdLine@2
+        script: 'env | sort'
+    - task: Bash@3
       displayName: list files
       inputs:
-        script: 'echo %CD% & dir /S & echo BUILD_ARTIFACTSTAGINGDIRECTORY & echo %BUILD_ARTIFACTSTAGINGDIRECTORY% & dir %BUILD_ARTIFACTSTAGINGDIRECTORY%'
+        script: 'echo $PWD ; ls -al ; echo BUILD_ARTIFACTSTAGINGDIRECTORY ; echo $BUILD_ARTIFACTSTAGINGDIRECTORY ; ls -al $BUILD_ARTIFACTSTAGINGDIRECTORY'
     - task: DownloadPipelineArtifact@2
       inputs:
           source: 'current'
@@ -134,7 +134,7 @@ stages:
           artifact: deploy_artifacts
           #patterns: '**' # Optional
           path: '$(Pipeline.Workspace)'
-  - deployment: Deploy_2_minikube
+  - deployment: Deploy_2_k8s-osscluster
     variables:
     - name: kub-pod-instancecount
       value: 1
