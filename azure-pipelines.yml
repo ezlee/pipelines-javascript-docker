@@ -46,7 +46,7 @@ stages:
       displayName: list files
       inputs:
         targetType: 'inline'
-        script: 'whoami; pwd ; ls -alh; which docker; docker version; cat $(Build.sourcedirectory)/app/server.js'
+        script: 'whoami; pwd ; ls -alh; which docker; docker version; cat $BUILD_SOURCEDIRECTORY/app/server.js'
     - task: replacetokens@3
       displayName: Add build number in server.js
       inputs:
@@ -59,7 +59,7 @@ stages:
       displayName: show server.js file
       inputs:
         targetType: 'inline'
-        script: 'cat $(Build.sourceDirectory)/app/server.js' 
+        script: 'cat $BUILD_SOURCEDIRECTORY/app/server.js' 
     - task: SonarCloudPrepare@1
       displayName: Sonarcloud Prepare
       inputs:
