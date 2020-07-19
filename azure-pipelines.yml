@@ -36,6 +36,8 @@ stages:
     displayName: Build image
     pool:
       vmImage: $(vmImageName)
+      workspace:
+        clean: all
     steps:
     - task: Bash@3
       displayName: show workspace and other environment variables
@@ -46,11 +48,11 @@ stages:
       displayName: list files
       inputs:
         targetType: 'inline'
-        script: 'whoami; pwd ; ls -alh; which docker; docker version; cat $BUILD_SOURCEDIRECTORY/app/server.js'
+        script: 'whoami; pwd ; ls -alh; which docker; docker version; cat $BUILD_SOURCESDIRECTORY/app/server.js'
     - task: replacetokens@3
       displayName: Add build number in server.js
       inputs:
-        rootDirectory: $(Build.sourceDirectory)/app
+        rootDirectory: $(Build.sourcesDirectory)/app
         targetFiles: 'server.js'
         keepToken: true
         tokenPrefix: __
@@ -59,7 +61,7 @@ stages:
       displayName: show server.js file
       inputs:
         targetType: 'inline'
-        script: 'cat $BUILD_SOURCEDIRECTORY/app/server.js' 
+        script: 'cat $BUILD_SOURCESDIRECTORY/app/server.js' 
     - task: SonarCloudPrepare@1
       displayName: Sonarcloud Prepare
       inputs:
@@ -103,7 +105,7 @@ stages:
       displayName: debug - check file contents on build agent
       inputs:
         targetType: 'inline'
-        script: 'pwd; echo $BUILD_SOURCEDIRECTORY; echo $BUILD_ARTIFACTSTAGINGDIRECTORY; ls -al $BUILD_SOURCEDIRECTORY'
+        script: 'pwd; echo $BUILD_SOURCESDIRECTORY; echo $BUILD_ARTIFACTSTAGINGDIRECTORY; ls -al $BUILD_SOURCEDIRECTORY'
     - task: CopyFiles@2
       inputs:
         contents: $(build.sourcesDirectory)/deployment/*.yml
