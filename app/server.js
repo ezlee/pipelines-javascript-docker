@@ -7,7 +7,7 @@ const HOST = '0.0.0.0';
 
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Hello world, nodejs running in docker with build number __buildNumber__!\n');
+  res.send('Hello world, nodejs running in docker with build number __tag__!\n');
 });
 
 app.listen(PORT, HOST);
