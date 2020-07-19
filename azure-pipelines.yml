@@ -46,11 +46,11 @@ stages:
       displayName: list files
       inputs:
         targetType: 'inline'
-        script: 'whoami; pwd ; ls -alh; which docker; docker version; ls -al $(Pipeline.Workspace)'
+        script: 'whoami; pwd ; ls -alh; which docker; docker version; cat $(Build.sourcedirectory)/app/server.js'
     - task: replacetokens@3
       displayName: Add build number in server.js
       inputs:
-        rootDirectory: $(Pipeline.Workspace)/app
+        rootDirectory: $(Build.sourceDirectory)/app
         targetFiles: 'server.js'
         keepToken: true
         tokenPrefix: __
@@ -59,7 +59,7 @@ stages:
       displayName: show server.js file
       inputs:
         targetType: 'inline'
-        script: 'cat $(Pipeline.Workspace)/app/server.js' 
+        script: 'cat $(Build.sourceDirectory)/app/server.js' 
     - task: SonarCloudPrepare@1
       displayName: Sonarcloud Prepare
       inputs:
