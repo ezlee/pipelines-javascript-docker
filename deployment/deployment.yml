@@ -13,7 +13,7 @@ spec:
         app: __appName__-__tag__
     spec:
       containers:
-      - name: pipelines-javascript-docker-__tag__
+      - name: pipelines-javascript-k8s-__tag__
         image: ezlee/__imageName__:__tag__
         ports:
         - containerPort: 80
