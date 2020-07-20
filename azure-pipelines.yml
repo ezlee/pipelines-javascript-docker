@@ -177,7 +177,7 @@ stages:
             displayName: kubectl apply
             inputs:
               connectionType: Kubernetes Service Connection
-              kubernetesServiceEndpoint: 'osscluster-default-1594408323510'
+              kubernetesServiceEndpoint: 'osscluster-default-cluster-admin'
               containerRegistryType: Container Registry
               dockerRegistryEndpoint: $(containerRegistry) 
               secretType: dockerRegistry
