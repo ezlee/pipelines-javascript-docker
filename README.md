@@ -1,4 +1,22 @@
 
+Istio gateway already deloyed on the kubenetes cluster:
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: pipeline-javascript-app-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "pipeline-app.example.local"
+
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
