@@ -1,6 +1,7 @@
 
 Istio gateway already deloyed on the kubenetes cluster:
 
+```
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -15,7 +16,7 @@ spec:
       protocol: HTTP
     hosts:
     - "pipeline-app.example.local"
-
+```
 
 # Contributing
 
