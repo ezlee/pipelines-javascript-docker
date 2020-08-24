@@ -149,7 +149,7 @@ stages:
           artifact: deploy_artifacts
           #patterns: '**' # Optional
           path: '$(Pipeline.Workspace)'
-  - deployment: Deploy_2_k8s_osscluster
+  - deployment: Deploy_2_k8s_ossmaster_on_mac
     variables:
     - name: kub-pod-instancecount
       value: 1
@@ -160,7 +160,7 @@ stages:
     - name: containerRegistry
       value: 'docker.io/ezlee'
     pool: k8s-hosted-agent
-    environment: 'osscluster'
+    environment: 'ossmaster'
     strategy:
       runOnce:
         deploy:
@@ -177,12 +177,12 @@ stages:
             displayName: kubectl apply
             inputs:
               connectionType: Kubernetes Service Connection
-              kubernetesServiceEndpoint: 'osscluster-default-cluster-admin'
+              kubernetesServiceEndpoint: 'oss-master-mac'
               containerRegistryType: Container Registry
               dockerRegistryEndpoint: $(containerRegistry) 
               secretType: dockerRegistry
               secretName: 
-              kubernetesCluster: osscluster
+              kubernetesCluster: cluster.local
               namespace: default
               command: apply
               arguments: -f $(Pipeline.Workspace)/deploy_artifacts/deployment/deployment.yml
