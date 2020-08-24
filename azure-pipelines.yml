@@ -12,6 +12,7 @@ trigger:
     exclude:
     - deployment/*
     - azure-pipelines.yml
+    - README.md
 
 resources:
 - repo: self
